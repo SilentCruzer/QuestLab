@@ -116,9 +116,9 @@ GitHub.sublime-settings
 .history
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
+/questlab-web/node_modules
 # dependencies
-/home/silentcruzer/questlab/questlab-web/node_modules
+
 /.pnp
 .pnp.js
 
