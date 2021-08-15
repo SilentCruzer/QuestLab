@@ -1,6 +1,7 @@
 from django.db.models import fields
 from django.contrib.auth import get_user_model
 import graphene
+from graphene.types.mutation import Mutation
 from graphene_django.types import DjangoObjectType, ObjectType
 from .models import *
 
@@ -24,6 +25,32 @@ class MilestoneType(DjangoObjectType):
         model = Milestone
         fields = ("milestone", "mile_relation")
 
+class LabInput(graphene.InputObjectType):
+    id = graphene.ID()
+    user = graphene.String()
+    lab_name = graphene.String()
+    lab_description = graphene.String()
+
+class CreateLab(graphene.Mutation):
+    class Arguments:
+        input = LabInput(required=True)
+
+    lab = graphene.Field(LabType)
+
+    @staticmethod
+    def mutate(root, info, input=None):
+        lab = Lab(
+            user_id = input.user,
+            lab_name = input.lab_name,
+            lab_description = input.lab_description
+        )
+        lab.save()
+        return CreateLab(lab=lab)
+        
+        
+class Mutation(graphene.ObjectType):
+    create_lab = CreateLab.Field()
+    
 class Query(ObjectType):
     labs = graphene.List(LabType, user=graphene.String(required=True))
     labDetails = graphene.List(LabDetailType)
@@ -49,4 +76,4 @@ class Query(ObjectType):
         
         
 
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, mutation=Mutation)
