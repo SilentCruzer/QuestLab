@@ -1,6 +1,7 @@
 from django.db.models import fields
 from django.contrib.auth import get_user_model
 import graphene
+from graphql_auth import mutations
 from graphene.types.mutation import Mutation
 from graphene_django.types import DjangoObjectType, ObjectType
 from .models import *
@@ -44,12 +45,13 @@ class CreateLab(graphene.Mutation):
             lab_name = input.lab_name,
             lab_description = input.lab_description
         )
-        lab.save()
+        lab.save
         return CreateLab(lab=lab)
         
         
 class Mutation(graphene.ObjectType):
     create_lab = CreateLab.Field()
+    token_auth = mutations.ObtainJSONWebToken.Field()
     
 class Query(ObjectType):
     labs = graphene.List(LabType, user=graphene.String(required=True))
@@ -61,7 +63,7 @@ class Query(ObjectType):
 
     def resolve_labs(self, info, user):
         try:
-            return Lab.objects.filter(user__username=user).all()
+            return Lab.objects.filter(user__id=user).all()
         except:
             return None
 
