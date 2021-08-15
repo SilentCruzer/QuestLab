@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'labs'
+    'labs',
+    'graphene_django'
+    
 ]
 
 MIDDLEWARE = [
@@ -55,6 +57,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+GRAPHENE = {
+    "SCHEMA": "labs.schema.schema"
+}
 
 ROOT_URLCONF = 'questlab.urls'
 
