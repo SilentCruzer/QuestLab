@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.deletion import CASCADE
 
 User = settings.AUTH_USER_MODEL
 
@@ -14,3 +15,11 @@ class Lab(models.Model):
 class LabDetail(models.Model):
     base_info = models.OneToOneField(Lab,on_delete=models.CASCADE)
     long_description = models.TextField()
+
+class Milestone(models.Model):
+    mile_relation = models.ForeignKey(Lab, on_delete=CASCADE, default="No relations")
+    milestone = models.TextField()
+
+class Resources(models.Model):
+    res_relation = models.ForeignKey(Lab, on_delete=CASCADE, default="No relations")
+    resource =  models.TextField()
