@@ -4,6 +4,8 @@ import { LOAD_USER_lOGIN } from "../GraphQL/Mutations";
 import Home from "../Home";
 import "./css/LoginForm.css";
 import * as ReactBootStrap from 'react-bootstrap';
+import NavbarComp from "./Navbar"
+import {Route, Switch, BrowserRouter as Router} from "react-router-dom";
 
 function LoginForm() {
   const [getUser, { data, loading, error }] = useMutation(LOAD_USER_lOGIN);
@@ -43,13 +45,21 @@ function LoginForm() {
   const submitHandler = (e) => {
     e.preventDefault();
     getItem();
-    <ReactBootStrap.Spinner animation="border" />
+
   };
 
   return (
     <div>
       {status ? (
-        <Home user={username}/>
+        <div>
+          <NavbarComp user={username}/>
+          <Router>
+            <Switch>
+              <Route  exact path="/home" component={() => <Home user={username} authorized={true}/>} />
+            </Switch>
+          </Router>
+        </div>
+        
       ) : (
         <div className="parent">
           <div className="imgbox">
