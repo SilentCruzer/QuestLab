@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { LOAD_USER_lOGIN } from "../GraphQL/Mutations";
 import Home from "../Home";
-import "../index.css";
+import "./css/LoginForm.css";
+import * as ReactBootStrap from 'react-bootstrap';
 
 function LoginForm() {
   const [getUser, { data, loading, error }] = useMutation(LOAD_USER_lOGIN);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(false);
+  const [match, setMatch] = useState("");
+  const [spinner, setSpinner] = useState(false);
 
   const getItem = () => {
     getUser({
@@ -20,9 +23,17 @@ function LoginForm() {
 
     if (error) {
       console.log(error);
-    } else {
-      if (data != undefined && data.tokenAuth.success) {
+    } 
+    if(data != undefined){
+      setSpinner(true)
+      console.log(data)
+      if (data.tokenAuth.success) {
+        console.log(data.tokenAuth.user.id)
         setStatus(true);
+        setSpinner(false);
+      }else{
+        setSpinner(false)
+        setMatch("Invalid username / password")
       }
     }
   };
@@ -32,17 +43,24 @@ function LoginForm() {
   const submitHandler = (e) => {
     e.preventDefault();
     getItem();
+    <ReactBootStrap.Spinner animation="border" />
   };
 
   return (
-    <form onSubmit={submitHandler}>
+    <div>
       {status ? (
-        <Home />
+        <Home user={username}/>
       ) : (
+        <div className="parent">
+          <div className="imgbox">
+            <img src="bgw.jpg"/>
+          </div>
           <div className="form-inner">
-            <h2>Login</h2>
-            {/* ERROR */}
-            <div className="form-group">
+            <div className="formBx">
+              <h2>Login</h2>
+            {(match!= "") ? (<div className="match">{match}</div>) : ""}
+            <form onSubmit={submitHandler}>
+              <div className="form-group">
               <label htmlFor="name">Name:</label>
               <input
                 type="text"
@@ -64,11 +82,18 @@ function LoginForm() {
                 }}
               />
             </div>
-            <input type="submit" value="LOGIN" />
+            <div className="form-group">
+              <input type="submit" value="LOGIN" />
+            </div>
+            </form>
+            </div>
+            {loading ? <ReactBootStrap.Spinner animation="border" /> : ""}
           </div>
+        </div>
+          
         
       )}
-    </form>
+    </div>
   );
 }
 

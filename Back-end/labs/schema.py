@@ -19,7 +19,7 @@ class LabType(DjangoObjectType):
 class LabDetailType(DjangoObjectType):
     class Meta:
         model = LabDetail
-        fields = ("base_info", "long_description ")
+        fields = ("base_info", "long_description")
 
 class MilestoneType(DjangoObjectType):
     class Meta:
@@ -63,7 +63,7 @@ class Query(ObjectType):
 
     def resolve_labs(self, info, user):
         try:
-            return Lab.objects.filter(user__id=user).all()
+            return Lab.objects.filter(user__username=user).all()
         except:
             return None
 
