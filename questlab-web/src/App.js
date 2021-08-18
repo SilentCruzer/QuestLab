@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/LoginForm'; 
 import './index.css';
+import Navbar from "./components/Navbar"
 import {
   ApolloClient,
   InMemoryCache,
@@ -9,6 +10,9 @@ import {
   from
 } from "@apollo/client";
 import {onError} from '@apollo/client/link/error'
+import {Redirect, Route, Switch, BrowserRouter as Router} from "react-router-dom";
+import Home from './Home';
+import View from './View';
 
 const errorLink = onError(({graphqlErrors, networkErrors}) => {
   if(graphqlErrors) {
@@ -30,9 +34,21 @@ const client = new ApolloClient({
 function App() {
 
   return <div className="App">
+    
     <ApolloProvider client= {client}>
+        <Router>
+          <Switch>
+            <Route path="/login" component={LoginForm} />
+            <>
+             <Navbar />
+              <Route path="/home/:name" component={Home} /> 
+              <Route path="/view/:lab" component={View} /> 
+            </>
+            
+          </Switch>
+      </Router>
         {" "}
-        <LoginForm/>
+        
     </ApolloProvider>
   </div> 
   

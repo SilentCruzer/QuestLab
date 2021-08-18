@@ -6,6 +6,7 @@ import "./css/LoginForm.css";
 import * as ReactBootStrap from 'react-bootstrap';
 import NavbarComp from "./Navbar"
 import {Route, Switch, BrowserRouter as Router} from "react-router-dom";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 function LoginForm() {
   const [getUser, { data, loading, error }] = useMutation(LOAD_USER_lOGIN);
@@ -52,12 +53,8 @@ function LoginForm() {
     <div>
       {status ? (
         <div>
-          <NavbarComp user={username}/>
-          <Router>
-            <Switch>
-              <Route  exact path="/home" component={() => <Home user={username} authorized={true}/>} />
-            </Switch>
-          </Router>
+          <Redirect 
+          to= {`/home/${username}`}/>
         </div>
         
       ) : (
