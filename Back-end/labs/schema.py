@@ -24,7 +24,12 @@ class LabDetailType(DjangoObjectType):
 class MilestoneType(DjangoObjectType):
     class Meta:
         model = Milestone
-        fields = ("milestone", "mile_relation")
+        fields = ("milestone", "mile_relation", "mile_des")
+
+class ResourceType(DjangoObjectType):
+    class Meta:
+        model = Resources
+        fields = ("resource", "res_relation")
 
 class LabInput(graphene.InputObjectType):
     id = graphene.ID()
@@ -55,9 +60,10 @@ class Mutation(graphene.ObjectType):
     
 class Query(ObjectType):
     labs = graphene.List(LabType, user=graphene.String(required=True))
-    labDetails = graphene.List(LabDetailType)
+    labDetails = graphene.List(LabDetailType, labname=graphene.String(required=True))
     users = graphene.List(UserType)
     milestones = graphene.List(MilestoneType, labname=graphene.String(required=True))
+    resources = graphene.List(ResourceType, labname=graphene.String(required=True))
     def resolve_users(self, info):
         return get_user_model().objects.all()
 
@@ -67,15 +73,23 @@ class Query(ObjectType):
         except:
             return None
 
-    def resolve_labDetails(self, info, **kwargs):
-        return LabDetail.objects.all()
+    def resolve_labDetails(self, info, labname):
+        try:
+            return LabDetail.objects.filter(base_info__lab_name=labname).all()
+        except:
+            return None
 
     def resolve_milestones(root,info, labname):
         try:
             return Milestone.objects.filter(mile_relation__lab_name=labname).all()
         except Milestone.DoesNotExist:
             return None
-        
+    
+    def resolve_resources(root, info, labname):
+        try:
+            return Resources.objects.filter(res_relation__lab_name=labname).all()
+        except:
+            return None
         
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

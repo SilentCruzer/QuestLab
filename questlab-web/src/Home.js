@@ -4,9 +4,6 @@ import { LOAD_USER_LABS } from "./GraphQL/Queries";
 import "./components/css/Home.css";
 import {Redirect, Route, Switch, BrowserRouter as Router, Link} from "react-router-dom";
 import {Card, Button} from "react-bootstrap";
-import View from "./View";
-import  Navbar from "./components/Navbar"
-
 function Home({ match }) {
   const { data, loading, error } = useQuery(LOAD_USER_LABS, {
     variables: { user: match.params.name },

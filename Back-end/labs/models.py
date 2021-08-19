@@ -19,6 +19,7 @@ class LabDetail(models.Model):
 class Milestone(models.Model):
     mile_relation = models.ForeignKey(Lab, on_delete=CASCADE, default="No relations")
     milestone = models.TextField()
+    mile_des = models.TextField(default="No description")
 
 class Resources(models.Model):
     res_relation = models.ForeignKey(Lab, on_delete=CASCADE, default="No relations")
