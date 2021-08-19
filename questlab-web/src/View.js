@@ -25,15 +25,39 @@ function View({ match }) {
     );
   };
 
+  const renderResourceItems = (card, index) => {  
+    return (
+        <li>
+            <div class="time"><a href={card.resource} target="_blank">{card.resource}</a></div>
+      </li>
+    );
+  };
+
+
   return (
     <div className="view">
+      <h3>{temp}</h3>
+      <div className="about">
+        <h4>About</h4>
+        <p>{(data != undefined) ? data["labDetails"][0]["longDescription"] : ""}</p>
+      </div>
       <div class="container">
         <div class="wrapper">
           <h1> Milestones</h1>
           <ul class="sessions">
-            {(data!=undefined) ? data['milestones'].map(renderLabItems): ""}
+            {(data!=undefined) ? data['milestones'].map(renderLabItems): "No milestones added"}
           </ul>
         </div>
+      </div>
+      <div className="resources">
+      <div class="container">
+        <div class="wrapper">
+          <h1>Resources</h1>
+          <ul class="sessions">
+            {(data!=undefined) ? data['resources'].map(renderResourceItems): "No milestones added"}
+          </ul>
+        </div>
+      </div>
       </div>
     </div>
   );
