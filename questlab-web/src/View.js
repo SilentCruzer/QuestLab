@@ -5,17 +5,12 @@ import { LOAD_LAB_DETAILS } from "./GraphQL/Queries";
 
 function View({ match }) {
   let temp = match.params.lab;
-  let labname = "";
-  try {
-    labname = temp.replace("%20", " ");
-  } catch (err) {
-    labname = temp;
-  }
 
   const { data, loading, error } = useQuery(LOAD_LAB_DETAILS, {
-    variables: { labname: temp },
+    variables: { labid: temp },
   });
 
+  console.log(data);
   const renderLabItems = (card, index) => {
     return (
         <li>
@@ -33,10 +28,11 @@ function View({ match }) {
     );
   };
 
+  console.log(data.labDetails[0].baseInfo.labName)
 
   return (
     <div className="view">
-      <h3>{temp}</h3>
+      <h3>{(data!=undefined) ? data.labDetails[0].baseInfo.labName : " "}</h3>
       <div className="about">
         <h4>About</h4>
         <p>{(data != undefined) ? data["labDetails"][0]["longDescription"] : ""}</p>

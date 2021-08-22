@@ -14,12 +14,12 @@ class UserType(DjangoObjectType):
 class LabType(DjangoObjectType):
     class Meta:
         model = Lab
-        fields = ("user","lab_name", "lab_description")
+        fields = ("user","lab_name", "lab_description", "id") 
 
 class LabDetailType(DjangoObjectType):
     class Meta:
         model = LabDetail
-        fields = ("base_info", "long_description")
+        fields = ("id","base_info", "long_description")
 
 class MilestoneType(DjangoObjectType):
     class Meta:
@@ -37,6 +37,10 @@ class LabInput(graphene.InputObjectType):
     lab_name = graphene.String()
     lab_description = graphene.String()
 
+class LabDetailInput(graphene.InputObjectType):
+    id = graphene.ID()
+    long_description = graphene.String()
+
 class CreateLab(graphene.Mutation):
     class Arguments:
         input = LabInput(required=True)
@@ -52,18 +56,55 @@ class CreateLab(graphene.Mutation):
         )
         lab.save
         return CreateLab(lab=lab)
+
+class UpdateLab(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+        input = LabInput(required=True)
         
+    lab = graphene.Field(LabType)
+
+    @staticmethod
+    def mutate(root, info, id, input=None):
+        lab_instance = Lab.objects.get(pk=id)
+        if lab_instance:
+            lab_instance.lab_name = input.lab_name
+            lab_instance.lab_description= input.lab_description
+            lab_instance.save()
+            return UpdateLab(lab=lab_instance)
+        return UpdateLab(lab=None)
+    
+class UpdateLabDetails(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+        input = LabDetailInput(required=True)
+
+    lab_detail = graphene.Field(LabDetailType)
+    
+    @staticmethod
+    def mutate(root, info, id, input=None):
+        details_instance = LabDetail.objects.get(pk=id)
+        if details_instance:
+            details_instance.long_description = input.long_description
+            details_instance.save()
+            return UpdateLabDetails(lab_detail = details_instance)
+        return UpdateLabDetails(lab_detail = None)
+
+
         
 class Mutation(graphene.ObjectType):
     create_lab = CreateLab.Field()
+    update_lab = UpdateLab.Field()
+    update_labDetail = UpdateLabDetails.Field()
     token_auth = mutations.ObtainJSONWebToken.Field()
     
 class Query(ObjectType):
     labs = graphene.List(LabType, user=graphene.String(required=True))
-    labDetails = graphene.List(LabDetailType, labname=graphene.String(required=True))
+    labDetail = graphene.List(LabDetailType)
+    labDetails = graphene.List(LabDetailType, labid=graphene.String(required=True))
     users = graphene.List(UserType)
-    milestones = graphene.List(MilestoneType, labname=graphene.String(required=True))
-    resources = graphene.List(ResourceType, labname=graphene.String(required=True))
+    milestones = graphene.List(MilestoneType, labid=graphene.String(required=True))
+    resources = graphene.List(ResourceType, labid=graphene.String(required=True))
     def resolve_users(self, info):
         return get_user_model().objects.all()
 
@@ -73,21 +114,27 @@ class Query(ObjectType):
         except:
             return None
 
-    def resolve_labDetails(self, info, labname):
+    def resolve_labDetails(self, info, labid):
         try:
-            return LabDetail.objects.filter(base_info__lab_name=labname).all()
+            return LabDetail.objects.filter(id=labid).all()
         except:
             return None
 
-    def resolve_milestones(root,info, labname):
+    def resolve_labDetail(self, info):
         try:
-            return Milestone.objects.filter(mile_relation__lab_name=labname).all()
+            return LabDetail.objects.all()
+        except:
+            return None
+
+    def resolve_milestones(root,info, labid):
+        try:
+            return Milestone.objects.filter(mile_relation__id=labid).all()
         except Milestone.DoesNotExist:
             return None
     
-    def resolve_resources(root, info, labname):
+    def resolve_resources(root, info, labid):
         try:
-            return Resources.objects.filter(res_relation__lab_name=labname).all()
+            return Resources.objects.filter(res_relation__id=labid).all()
         except:
             return None
         

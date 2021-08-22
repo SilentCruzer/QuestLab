@@ -21,7 +21,7 @@ function Home({ match }) {
         <Card.Body>
           <p className="labname">{card.labName}</p>
           <p className="labdes">{card.labDescription}</p>
-        <Link to={`/view/${card.labName}`}>View</Link>
+        <Link to={`/view/${card.id}`}>View</Link>
         </Card.Body>
       </Card>
     );
