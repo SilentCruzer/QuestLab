@@ -1,0 +1,81 @@
+.create {
+    padding: 20px
+}
+.form-container{
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.form-container .formbox{
+    width: 50%;
+}
+
+.form-container .formbox h2{
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ff4584;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+
+.form-container .formbox .form-group{
+    margin-bottom: 20px;
+}
+
+.form-container .formbox .form-group label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: rgb(0, 0, 0);
+    font-weight: 300;
+    letter-spacing: 1;
+}
+
+.form-container .formbox .match{
+    color:red;
+}
+
+.form-container .formbox .form-group input{
+    width: 200%;
+    padding: 10px 20px;
+    outline: none;
+    font-weight: 400;
+    border: 1px solid rgb(7, 7, 7);
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: rgb(0, 0, 0);
+    background: transparent;
+    border-radius: 30px;
+}
+
+.form-container .formbox .form-group textarea{
+    width: 200%;
+    padding: 10px 20px;
+    outline: none;
+    font-weight: 400;
+    border: 1px solid rgb(7, 7, 7);
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: rgb(0, 0, 0);
+    background: transparent;
+    border-radius: 30px;
+}
+
+.form-container .formbox .form-group input[type="submit"]{
+    background: #ff4584;
+    color: #fff;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.form-container .formbox .form-group input[type="submit"]:hover{
+    background: #f53677;
+}

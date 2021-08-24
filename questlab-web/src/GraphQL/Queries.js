@@ -36,3 +36,10 @@ export const LOAD_LAB_DETAILS = gql`
           }
     }
 `
+export const LOAD_USER_ID = gql`
+    query ($username: String!){
+        userId(username: $username){
+            id
+        }
+    }
+`

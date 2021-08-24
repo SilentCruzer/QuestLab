@@ -4,6 +4,8 @@ import { LOAD_USER_LABS } from "./GraphQL/Queries";
 import "./components/css/Home.css";
 import {Redirect, Route, Switch, BrowserRouter as Router, Link} from "react-router-dom";
 import {Card, Button} from "react-bootstrap";
+import Navbar from "./components/Navbar"
+
 function Home({ match }) {
   const { data, loading, error } = useQuery(LOAD_USER_LABS, {
     variables: { user: match.params.name },
@@ -15,6 +17,8 @@ function Home({ match }) {
     }
   };
 
+
+  
   const renderCard = (card, index) => {
     return (
         <Card className="box">
@@ -27,7 +31,9 @@ function Home({ match }) {
     );
   };
   return (
-    <div className="home" onLoad={getLabItems()}>
+    <div className="home-main">
+      <Navbar user={match.params.name}/>
+      <div className="home" onLoad={getLabItems()}>
       <h3>Hello {match.params.name}</h3>
       <h3><u>Your labs</u></h3>
       <div className="grid">
@@ -35,6 +41,8 @@ function Home({ match }) {
       </div>
       
     </div>
+    </div>
+    
   );
 }
 

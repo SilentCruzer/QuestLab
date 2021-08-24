@@ -28,7 +28,6 @@ function View({ match }) {
     );
   };
 
-  console.log(data.labDetails[0].baseInfo.labName)
 
   return (
     <div className="view">

@@ -13,6 +13,7 @@ import {onError} from '@apollo/client/link/error'
 import {Redirect, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import Home from './Home';
 import View from './View';
+import Create from './Create';
 
 const errorLink = onError(({graphqlErrors, networkErrors}) => {
   if(graphqlErrors) {
@@ -40,9 +41,9 @@ function App() {
           <Switch>
             <Route path="/login" component={LoginForm} />
             <>
-             <Navbar />
               <Route path="/home/:name" component={Home} /> 
               <Route path="/view/:lab" component={View} /> 
+              <Route path="/:user/create" component={Create} /> 
             </>
             
           </Switch>

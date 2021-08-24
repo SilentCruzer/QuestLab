@@ -1,10 +1,12 @@
 from django.db.models import fields
 from django.contrib.auth import get_user_model
 import graphene
+from django.conf import settings
 from graphql_auth import mutations
 from graphene.types.mutation import Mutation
 from graphene_django.types import DjangoObjectType, ObjectType
 from .models import *
+User = settings.AUTH_USER_MODEL
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -31,6 +33,17 @@ class ResourceType(DjangoObjectType):
         model = Resources
         fields = ("resource", "res_relation")
 
+class ResourceInput(graphene.InputObjectType):
+    id = graphene.ID()
+    lab_name = graphene.String()
+    resource = graphene.String()
+
+class MilestoneInput(graphene.InputObjectType):
+    id = graphene.ID()
+    lab_name = graphene.String()
+    milestone = graphene.String()
+    mile_des = graphene.String()
+
 class LabInput(graphene.InputObjectType):
     id = graphene.ID()
     user = graphene.String()
@@ -39,6 +52,7 @@ class LabInput(graphene.InputObjectType):
 
 class LabDetailInput(graphene.InputObjectType):
     id = graphene.ID()
+    lab_name = graphene.String()
     long_description = graphene.String()
 
 class CreateLab(graphene.Mutation):
@@ -54,8 +68,9 @@ class CreateLab(graphene.Mutation):
             lab_name = input.lab_name,
             lab_description = input.lab_description
         )
-        lab.save
+        lab.save()
         return CreateLab(lab=lab)
+
 
 class UpdateLab(graphene.Mutation):
     class Arguments:
@@ -73,7 +88,23 @@ class UpdateLab(graphene.Mutation):
             lab_instance.save()
             return UpdateLab(lab=lab_instance)
         return UpdateLab(lab=None)
+
+class CreateLabDetails(graphene.Mutation):
+    class Arguments: 
+        input = LabDetailInput(required=True)
+
+    lab_detail = graphene.Field(LabDetailType)
     
+    @staticmethod
+    def mutate(root, info,input=None):
+        lab = Lab.objects.get(lab_name=input.lab_name)
+        lab_detail = LabDetail(
+            base_info_id = lab.id,
+            long_description = input.long_description
+        )
+        lab_detail.save()
+        return CreateLabDetails(lab_detail=lab_detail)
+
 class UpdateLabDetails(graphene.Mutation):
     class Arguments:
         id = graphene.Int(required=True)
@@ -90,11 +121,44 @@ class UpdateLabDetails(graphene.Mutation):
             return UpdateLabDetails(lab_detail = details_instance)
         return UpdateLabDetails(lab_detail = None)
 
+class CreateResource(graphene.Mutation):
+    class Arguments:
+        input = ResourceInput(required=True)
+    
+    resource = graphene.Field(ResourceType)
+    @staticmethod
+    def mutate(root, info, input=None):
+        lab = Lab.objects.get(lab_name=input.lab_name)
+        resource = Resources(
+            res_relation_id = lab.id,
+            resource = input.resource
+        )
+        resource.save()
+        return CreateResource(resource=resource)
 
+class CreateMilestone(graphene.Mutation):
+    class Arguments:
+        input = MilestoneInput(required=True)
+
+    milestone = graphene.Field(MilestoneType)
+
+    @staticmethod
+    def mutate(root, info, input=None):
+        lab = Lab.objects.get(lab_name=input.lab_name)
+        milestone = Milestone(
+            mile_relation_id = lab.id,
+            milestone = input.milestone,
+            mile_des = input.mile_des
+        )
+        milestone.save()
+        return CreateMilestone(milestone=milestone)
         
 class Mutation(graphene.ObjectType):
     create_lab = CreateLab.Field()
     update_lab = UpdateLab.Field()
+    create_labDetail = CreateLabDetails.Field()
+    create_resource = CreateResource.Field()
+    create_milestone = CreateMilestone.Field()
     update_labDetail = UpdateLabDetails.Field()
     token_auth = mutations.ObtainJSONWebToken.Field()
     
@@ -103,6 +167,7 @@ class Query(ObjectType):
     labDetail = graphene.List(LabDetailType)
     labDetails = graphene.List(LabDetailType, labid=graphene.String(required=True))
     users = graphene.List(UserType)
+    userId = graphene.List(UserType,  username=graphene.String(required=True))
     milestones = graphene.List(MilestoneType, labid=graphene.String(required=True))
     resources = graphene.List(ResourceType, labid=graphene.String(required=True))
     def resolve_users(self, info):
@@ -116,7 +181,7 @@ class Query(ObjectType):
 
     def resolve_labDetails(self, info, labid):
         try:
-            return LabDetail.objects.filter(id=labid).all()
+            return LabDetail.objects.filter(base_info_id=labid).all()
         except:
             return None
 
@@ -135,6 +200,12 @@ class Query(ObjectType):
     def resolve_resources(root, info, labid):
         try:
             return Resources.objects.filter(res_relation__id=labid).all()
+        except:
+            return None
+        
+    def resolve_userId(root, info, username):
+        try:
+            return get_user_model().objects.filter(username=username)
         except:
             return None
         
