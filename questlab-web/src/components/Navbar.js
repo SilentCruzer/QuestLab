@@ -4,12 +4,12 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 function NavbarComp({user}) {
   return (
     <div>
-      <Navbar bg="dark" variant={"dark"} expand="lg">
+      <Navbar bg="dark" variant={"dark"} expand="lg" fixed="top">
         <Navbar.Brand href="#home">QuestLab</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href={`/home/${user}`}>Home</Nav.Link>
             <Nav.Link href={`/${user}/create`}>Create lab</Nav.Link>
             <Nav.Link href="#link">Profile</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">

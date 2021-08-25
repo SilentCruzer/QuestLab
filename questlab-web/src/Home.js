@@ -2,9 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { LOAD_USER_LABS } from "./GraphQL/Queries";
 import "./components/css/Home.css";
-import {Redirect, Route, Switch, BrowserRouter as Router, Link} from "react-router-dom";
-import {Card, Button} from "react-bootstrap";
-import Navbar from "./components/Navbar"
+import {
+  Redirect,
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom";
+import { Card, Button } from "react-bootstrap";
+import Navbar from "./components/Navbar";
 
 function Home({ match }) {
   const { data, loading, error } = useQuery(LOAD_USER_LABS, {
@@ -13,36 +19,43 @@ function Home({ match }) {
 
   const getLabItems = () => {
     if (data != undefined) {
-        console.log(data)
+      console.log(data);
     }
   };
 
-
-  
   const renderCard = (card, index) => {
     return (
-        <Card className="box">
-        <Card.Body>
+      <Card className="box">
+        <Card.Body className="box-content">
           <p className="labname">{card.labName}</p>
           <p className="labdes">{card.labDescription}</p>
-        <Link to={`/view/${card.id}`}>View</Link>
+          <Link to={`/view/${match.params.name}/${card.id}`} className="view">View</Link>
         </Card.Body>
       </Card>
     );
   };
   return (
     <div className="home-main">
-      <Navbar user={match.params.name}/>
-      <div className="home" onLoad={getLabItems()}>
-      <h3>Hello {match.params.name}</h3>
-      <h3><u>Your labs</u></h3>
-      <div className="grid">
-         {(data != undefined) ? data['labs'].map(renderCard): ""} 
+      <Navbar user={match.params.name} />
+      <div className="banner">
+        <p className="banner-text">Welcome, {match.params.name}<br/>
+        <a href="#hidden"><span className="banner-sub">View Labs</span></a>
+        </p>
+        <p class="hidden" id="hidden">
+          hello
+        </p>
       </div>
-      
+      <div className="cards" id="cards">
+        <div className="home" onLoad={getLabItems()}>
+          <h3 className="labs-title" id="labs">
+            Your labs
+          </h3>
+          <div className="grid">
+            {data != undefined ? data["labs"].map(renderCard) : ""}
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
-    
   );
 }
 

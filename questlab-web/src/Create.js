@@ -87,6 +87,8 @@ function Create({ match }) {
   const getArray = () => {
     var taskdes= document.getElementsByName("taskdes");
     var taskList = tasks.split(",")
+    console.log(taskdes);
+    console.log(taskList);
     for(var i=0;i<taskdes.length; i++){
       addMilestone({
           variables: {

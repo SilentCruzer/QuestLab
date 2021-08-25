@@ -42,7 +42,7 @@ function App() {
             <Route path="/login" component={LoginForm} />
             <>
               <Route path="/home/:name" component={Home} /> 
-              <Route path="/view/:lab" component={View} /> 
+              <Route path="/view/:name/:lab" component={View} /> 
               <Route path="/:user/create" component={Create} /> 
             </>
             

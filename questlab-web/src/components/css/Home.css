@@ -1,11 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 .home {
-    margin: 20px;
+    padding: 20px;
+}
+.home-main{
+    margin: 0;  
+}
+.cards {
+    background-image: url("https://wallpapercave.com/wp/wp3172894.jpg");
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center;
+    height: 800px;
+    clear:none;
+}
+.banner{
+    background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/1400/86dce060094321.5a82d03ed6509.gif");
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center;
+    height: 725px;
+    clear:none;
+}
+
+.banner .banner-text{
+    padding: 120px;
+    font-family: 'Poppins';
+    font-size: 50px;
+    color: #fff;
+    position:absolute;
+    bottom: 0;
+    left: 0;
+}
+.hidden {
+    height: -10px;
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    visibility: hidden;
+}
+
+.banner .banner-sub{
+    font-size: 26px;
+}
+
+.labs-title{
+    font-family: 'Poppins';
+    font-size: 35       px;
+    color: rgb(189, 185, 185);
 }
 .box {
-    background-color: white;
-    border-radius: 10px 10px 10px 10px;
-    overflow: hidden;
+    background-image: url("../assets/border.png");
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px 20px 20px 20px;
+    overflow: hidden;       
     height:200px;
     max-height: 35vh;
     -webkit-box-shadow: 0px 12px 18px -6px rgba(0,0,0,0.3);
@@ -27,19 +75,29 @@
     right: 16px;
     font-size: 18px;
 }
-
+.box-content{
+    padding: 100px;
+}
 .labname {
+    margin-top: 20px;
     font-family: 'Poppins', sans-serif;
     font-weight: 100;
     font-size: 20px;
+    color: rgb(207, 204, 204);
 }
 
 .labdes {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
-    color: rgb(97, 94, 94);
+    color: rgb(199, 199, 199);
 }
 
+.view{
+    margin-bottom: 10px;
+    position:absolute;
+    bottom: 0;
+    right: 0;
+}
 .grid > div{
     flex-basis: calc(20% - 40px);
 }
