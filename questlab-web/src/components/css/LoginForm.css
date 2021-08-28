@@ -22,14 +22,22 @@
     height: 100%;
     object-fit: cover;
 }
+.imgbox .logo img{
+    max-width: 100%;
+    height: auto;
+    position: absolute;
+    padding-top: 50px;
+    padding-left:  500px;
+}
 
 .form-inner{
     position: relative;
     width: 40%;
-    background-color: rgb(43, 42, 42);
+    background-color: rgb(24, 24, 24);
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 10px 0 5px -5px rgb(0, 0, 0);
     height: 100%;
 }
 

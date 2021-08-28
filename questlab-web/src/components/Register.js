@@ -8,10 +8,11 @@ import NavbarComp from "./Navbar"
 import {Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
-function LoginForm() {
+function Register() {
   const [getUser, { data, loading, error }] = useMutation(LOAD_USER_lOGIN);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [status, setStatus] = useState(false);
   const [match, setMatch] = useState("");
   const [spinner, setSpinner] = useState(false);
@@ -67,9 +68,20 @@ function LoginForm() {
           </div>
           <div className="form-inner">
             <div className="formBx">
-              <h2>Login</h2>
+              <h2>Register</h2>
             {(match!= "") ? (<div className="match">{match}</div>) : ""}
             <form onSubmit={submitHandler}>
+            <div className="form-group">
+              <label htmlFor="password">Email:</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </div>
               <div className="form-group">
               <label htmlFor="name">Name:</label>
               <input
@@ -93,10 +105,21 @@ function LoginForm() {
               />
             </div>
             <div className="form-group">
-              <input type="submit" value="LOGIN" />
+              <label htmlFor="password">Confirm Password:</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
             </div>
             <div className="form-group">
-              <p>Don't have an account? <a href="/register">Sign up</a> </p>
+              <input type="submit" value="Register" />
+            </div>
+            <div className="form-group">
+              <p>Already have an account? <a href="/login">Login</a> </p>
             </div>
             </form>
             </div>
@@ -110,4 +133,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default Register;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import LoginForm from './components/LoginForm'; 
+import LoginForm from './components/LoginForm';
+import Register from './components/Register';
 import './index.css';
 import Navbar from "./components/Navbar"
 import {
@@ -40,10 +41,11 @@ function App() {
         <Router>
           <Switch>
             <Route path="/login" component={LoginForm} />
+            <Route path="/register" component={Register} /> 
             <>
               <Route path="/home/:name" component={Home} /> 
               <Route path="/view/:name/:lab" component={View} /> 
-              <Route path="/:user/create" component={Create} /> 
+              <Route path="/:user/create" component={Create} />
             </>
             
           </Switch>

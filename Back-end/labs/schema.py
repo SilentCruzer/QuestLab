@@ -161,6 +161,7 @@ class Mutation(graphene.ObjectType):
     create_milestone = CreateMilestone.Field()
     update_labDetail = UpdateLabDetails.Field()
     token_auth = mutations.ObtainJSONWebToken.Field()
+    register = mutations.Register.Field()
     
 class Query(ObjectType):
     labs = graphene.List(LabType, user=graphene.String(required=True))

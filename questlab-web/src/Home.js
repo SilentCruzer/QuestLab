@@ -29,7 +29,7 @@ function Home({ match }) {
         <Card.Body className="box-content">
           <p className="labname">{card.labName}</p>
           <p className="labdes">{card.labDescription}</p>
-          <Link to={`/view/${match.params.name}/${card.id}`} className="view">View</Link>
+          <a href={`/view/${match.params.name}/${card.id}`}><p className="view-btn" > View</p></a>
         </Card.Body>
       </Card>
     );

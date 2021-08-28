@@ -92,8 +92,10 @@
     color: rgb(199, 199, 199);
 }
 
-.view{
-    margin-bottom: 10px;
+.view-btn{
+    margin-bottom: 30px;
+    color: rgb(194, 189, 189);
+    margin-right: 30px;
     position:absolute;
     bottom: 0;
     right: 0;

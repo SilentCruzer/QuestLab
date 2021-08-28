@@ -2,6 +2,7 @@ import React from "react";
 import "./components/css/View.css";
 import { useQuery } from "@apollo/client";
 import { LOAD_LAB_DETAILS } from "./GraphQL/Queries";
+import Navbar from "./components/Navbar";
 
 function View({ match }) {
   let temp = match.params.lab;
@@ -31,7 +32,10 @@ function View({ match }) {
 
   return (
     <div className="view">
-      <h3>{(data!=undefined) ? data.labDetails[0].baseInfo.labName : " "}</h3>
+      <Navbar user={match.params.name} />
+      <div className="title">
+        <h3>{(data!=undefined) ? data.labDetails[0].baseInfo.labName : " "}</h3>
+      </div>
       <div className="about">
         <h4>About</h4>
         <p>{(data != undefined) ? data["labDetails"][0]["longDescription"] : ""}</p>
