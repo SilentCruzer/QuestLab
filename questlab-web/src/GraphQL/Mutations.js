@@ -20,6 +20,23 @@ export const LOAD_USER_lOGIN = gql`
         }
     }
 `
+export const CREATE_USER = gql`
+    mutation createUser(
+        $username: String!
+        $password: String!
+        $email: String!
+    ){
+        createUser(
+            email: $email
+            username: $username
+            password: $password
+        ){
+            user{
+                username
+            }
+        }
+    }
+`
 
 
 export const CREATE_LAB = gql`

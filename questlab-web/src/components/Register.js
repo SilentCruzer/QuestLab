@@ -1,44 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { LOAD_USER_lOGIN } from "../GraphQL/Mutations";
+import { CREATE_USER } from "../GraphQL/Mutations";
 import Home from "../Home";
 import "./css/LoginForm.css";
 import * as ReactBootStrap from 'react-bootstrap';
 import NavbarComp from "./Navbar"
-import {Route, Switch, BrowserRouter as Router} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 function Register() {
-  const [getUser, { data, loading, error }] = useMutation(LOAD_USER_lOGIN);
+  const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirm] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState(false);
   const [match, setMatch] = useState("");
   const [spinner, setSpinner] = useState(false);
-
+  let history = useHistory();
   const getItem = () => {
-    getUser({
+    
+    if(password == confirmPassword){
+      createUser({
       variables: {
         username: username,
         password: password,
+        email: email
       },
     });
-
     if (error) {
       console.log(error);
     } 
     if(data != undefined){
-      setSpinner(true)
-      console.log(data)
-      if (data.tokenAuth.success) {
-        console.log(data.tokenAuth.user.id)
-        setStatus(true);
-        setSpinner(false);
-      }else{
-        setSpinner(false)
-        setMatch("Invalid username / password")
+      history.push("/login")
+    }else{
+      setSpinner(false)
       }
+    }
+    else{
+      setMatch("Passwords does not match")
     }
   };
 
@@ -55,7 +55,7 @@ function Register() {
       {status ? (
         <div>
           <Redirect 
-          to= {`/home/${username}`}/>
+          to= {`/login`}/>
         </div>
         
       ) : (
@@ -111,7 +111,7 @@ function Register() {
                 name="password"
                 id="password"
                 onChange={(e) => {
-                  setPassword(e.target.value);
+                  setConfirm(e.target.value);
                 }}
               />
             </div>
