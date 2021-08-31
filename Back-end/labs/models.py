@@ -6,7 +6,7 @@ User = settings.AUTH_USER_MODEL
 
 class Lab(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    lab_name = models.CharField(max_length=50)
+    lab_name = models.CharField(max_length=50)  
     lab_description = models.TextField()
 
     def __str__(self):
