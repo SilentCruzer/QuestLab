@@ -98,3 +98,7 @@
 .form-inner .formBx .form-group input[type="submit"]:hover{
     background: #f53677;
 }
+
+.signup-text {
+    color:rgb(184, 183, 183);
+}

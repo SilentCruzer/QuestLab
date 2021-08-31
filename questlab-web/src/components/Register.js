@@ -83,7 +83,7 @@ function Register() {
               />
             </div>
               <div className="form-group">
-              <label htmlFor="name">Name:</label>
+              <label htmlFor="name">Username:</label>
               <input
                 type="text"
                 name="name"
@@ -119,7 +119,7 @@ function Register() {
               <input type="submit" value="Register" />
             </div>
             <div className="form-group">
-              <p>Already have an account? <a href="/login">Login</a> </p>
+              <p className="signup-text">Already have an account? <a href="/login">Login</a> </p>
             </div>
             </form>
             </div>

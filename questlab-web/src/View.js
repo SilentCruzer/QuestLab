@@ -16,7 +16,7 @@ function View({ match }) {
     return (
         <li>
             <div class="time">{card.milestone}</div>
-            <p>{card.mileDes}</p>
+            <p className="time-des">{card.mileDes}</p>
       </li>
     );
   };
@@ -38,11 +38,11 @@ function View({ match }) {
       </div>
       <div className="about">
         <h4>About</h4>
-        <p>{(data != undefined) ? data["labDetails"][0]["longDescription"] : ""}</p>
+        <p className="about-des">{(data != undefined) ? data["labDetails"][0]["longDescription"] : ""}</p>
       </div>
       <div class="container">
         <div class="wrapper">
-          <h1> Milestones</h1>
+          <h1 className="milestone-title"> Milestones</h1>
           <ul class="sessions">
             {(data!=undefined) ? data['milestones'].map(renderLabItems): "No milestones added"}
           </ul>
@@ -51,7 +51,7 @@ function View({ match }) {
       <div className="resources">
       <div class="container">
         <div class="wrapper">
-          <h1>Resources</h1>
+          <h1 className="time-des">Resources</h1>
           <ul class="sessions">
             {(data!=undefined) ? data['resources'].map(renderResourceItems): "No milestones added"}
           </ul>

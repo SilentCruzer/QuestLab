@@ -96,7 +96,7 @@ function LoginForm() {
               <input type="submit" value="LOGIN" />
             </div>
             <div className="form-group">
-              <p>Don't have an account? <a href="/register">Sign up</a> </p>
+              <p className="signup-text">Don't have an account? <a href="/register">Sign up</a> </p>
             </div>
             </form>
             </div>

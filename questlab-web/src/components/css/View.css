@@ -13,6 +13,7 @@
 
 .view {
   padding: 20px;
+  background-color: rgb(36, 35, 35);
   position: absolute;
 }
 
@@ -35,13 +36,20 @@ background-size:cover;
 padding: 3rem 0;
 }
 .wrapper{
-background: #eaf6ff;
+background: #3a3a3a;
 padding: 2rem;
 border-radius: 15px;
 }
 h1{
 font-size: 1.1rem;
 font-family: sans-serif;
+}
+h3,.about, .about-des, .milestone-title{
+  color: rgb(212, 211, 211);
+}
+
+.time-des{
+  color: rgb(206, 202, 202);
 }
 .sessions{
 margin-top: 2rem;
@@ -50,7 +58,7 @@ position: relative;
 }
 li{
 padding-bottom: 1.5rem;
-border-left: 1px solid #abaaed;
+border-left: 1px solid #303030;
 position: relative;
 padding-left: 20px;
 margin-left: 10px;
@@ -62,18 +70,19 @@ margin-left: 10px;
   content: '';
   width: 15px;
   height: 15px;
-  background: white;
-  border: 1px solid #4e5ed3;
-  box-shadow: 3px 3px 0px #bab5f8;
-  box-shadow: 3px 3px 0px #bab5f8;
+  background: rgb(58, 57, 57);
+  border: 1px solid #2c2c2c;
+  box-shadow: 3px 3px 0px #202020;
+  box-shadow: 3px 3px 0px #313131;
   border-radius: 50%;
   position: absolute;
   left: -10px;
   top: 0px;
 }
 }
+
 .time{
-color: #2a2839;
+color: rgb(212, 211, 211);
 font-family: 'Poppins', sans-serif;
 font-weight: 500;
 @include mobile-and-up{

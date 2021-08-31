@@ -12,6 +12,22 @@ class UserType(DjangoObjectType):
     class Meta:
         model = get_user_model()
 
+class CreateUser(graphene.Mutation):
+    user = graphene.Field(UserType)
+
+    class Arguments:
+        username = graphene.String(required=True)
+        password = graphene.String(required=True)
+        email = graphene.String(required=True)
+
+    def mutate(self, info, username, password, email):
+        user = get_user_model()(
+            username=username,
+            email=email,
+        )
+        user.set_password(password)
+        user.save()
+        return CreateUser(user=user)
 
 class LabType(DjangoObjectType):
     class Meta:
@@ -161,7 +177,7 @@ class Mutation(graphene.ObjectType):
     create_milestone = CreateMilestone.Field()
     update_labDetail = UpdateLabDetails.Field()
     token_auth = mutations.ObtainJSONWebToken.Field()
-    register = mutations.Register.Field()
+    create_user = CreateUser.Field()
     
 class Query(ObjectType):
     labs = graphene.List(LabType, user=graphene.String(required=True))
